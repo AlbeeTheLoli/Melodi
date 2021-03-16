@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+        "moduleResolution": "node",
+        "target": "es2017",
+        "importsNotUsedAsValues": "error",
+        // "isolatedModules": true,
+        "sourceMap": true,
+        "strict": true,
+        "esModuleInterop": false,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+		"lib": ["DOM", "ES2017", "WebWorker"],
+		// "module": "esnext",
+	},
+	"include": ["src/**/*", "src/node_modules/**/*", "src"],
+	"exclude": ["node_modules/*", "__sapper__/*", "static/*"]
+}
