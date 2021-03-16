@@ -1,0 +1,47 @@
+main {
+    margin-top: 64px;
+    display: flex;
+    padding: 0 64px;
+}
+
+.melody-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+main > div > .header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 32px;
+}
+
+.settings-container {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.setting-el {
+    margin-bottom: 16px;
+    display: flex;
+    width: 100%;
+}
+
+.setting-el input {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 400;
+    background: none;
+    border: none;
+    color: var(--text);
+    margin-left: 8px;
+    outline: none;
+    border-radius: 0;
+    opacity: .48;
+}

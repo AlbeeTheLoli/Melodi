@@ -1,5 +1,9 @@
 {
     "events": {
-        "restart": "npm run rebuild"
-    }
+        "restart": "npm run bundle"
+    },
+    "ignore": [
+        "*bundle.js"
+    ],
+    "ext": "js,ts,json"
 }

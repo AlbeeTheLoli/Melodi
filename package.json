@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "nodemon server",
-    "rebuild": "cd client && npm build && cd ../ && npm start"
+    "rebuild": "cd client && npm build && cd ../",
+    "bundle": "browserify client/pages/result/index.js -o client/pages/result/bundle.js"
   },
   "author": "",
   "license": "MIT",
