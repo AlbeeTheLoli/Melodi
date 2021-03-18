@@ -20,7 +20,8 @@ app.get('/result', (req, res) => {
 
 app.get('/melody', async (req, res) => {
     // load a midi file in the browser
-    const midi = await new Midi();
+    const midiData = fs.readFileSync("./Stay Alive.mid")
+    const midi = await new Midi(midiData);
     
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');

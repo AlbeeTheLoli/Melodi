@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="/client/header.css">
 
     <link rel="stylesheet" href="/client/pages/result/css/main.css">
-    <link rel="stylesheet" href="/client/pages/result/css/piano-roll.css">
+    <link rel="stylesheet" href="/client/pages/result/css/player/piano-roll.css">
+    <link rel="stylesheet" href="/client/pages/result/css/player/overlay.css">
+    <link rel="stylesheet" href="/client/pages/result/css/player/container.css">
 
     <script defer type="text/javascript" src="/client/pages/result/bundle.js"></script>
 </head>
@@ -25,13 +27,183 @@
         </div>
     </header>
 
-    <main>
+    <main id="main">
         <div class="melody-container">
             <div class="header">
                 Сгенерированная мелодия
             </div>
-            <div class="piano-roll">
-                
+            <div class="player-container">
+                <div id="piano-roll" class="piano-roll">
+                    <div class="keys">
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key">C5</div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key">C4</div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key">C3</div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key">C2</div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key">C1</div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key">C0</div>
+                    </div>
+                    <div id="notes-bg" class="notes-bg">
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                        <div class="black-key"></div>
+                        <div class="white-key"></div>
+                    </div>
+                    <div id="notes-container" class="notes">
+                    </div>
+                </div>
+                <div class="overlay">
+                    <div class="markers">
+                        
+                    </div>
+                    <div class="tips">
+                        <div class="tip">
+                            <h1>Going up</h1>
+                            <p>Helps to create tension</p>
+                        </div>
+                        <div class="tip">
+                            <h1>Main part</h1>
+                            <p>Main motif of the melody</p>
+                        </div>
+                        <div class="tip">
+                            <h1>Resolvation</h1>
+                            <p>Resolves tension by going to the root note</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -1,0 +1,7 @@
+.player-container {
+    background-color: rgba(var(--text-rgb), .02);
+    flex: 1;
+    margin-right: 32px;
+    height: 100%;
+    position: relative;
+}

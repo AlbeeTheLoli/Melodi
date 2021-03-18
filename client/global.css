@@ -10,12 +10,34 @@
     --text-rgb: 255, 255, 255;
     --accent-rgb: 156, 124, 221;
     --secondary-rgb: 221, 179, 124;
+
+    --piano-key-light: #FFFFFF;
+    --piano-key-dark: #282830;
+    --piano-note-1: #DDB37C;
+    --piano-note-2: #9C7CDD;
+    --piano-note-3: #7CDDB3;
+    --piano-note-4: #DD7CA3;
+
+    --piano-key-light-rgb: 255, 255, 255;
+    --piano-key-dark-rgb: 40, 40, 48;
+    --piano-note-1-rgb: 221, 179, 124;
+    --piano-note-2-rgb: 156, 124, 221;
+    --piano-note-3-rgb: 124, 221, 179;
+    --piano-note-4-rgb: 221, 124, 163;
+
+
+    --piano-note-width: 64px;
+    --piano-note-height: 24px;
+    --piano-scale: 2;
+    --piano-notes-vertical-gap: 4px;
+    --piano-notes-horizontal-gap: 8px;
 }
 
 * {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
+    box-sizing: border-box;
 }
 
 body {

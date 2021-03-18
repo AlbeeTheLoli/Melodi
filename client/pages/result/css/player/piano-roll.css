@@ -1,0 +1,97 @@
+.piano-roll {
+    position: absolute;
+    background-color: rgba(var(--text-rgb), .04);
+    flex: 1;
+    margin-right: 32px;
+    width: 100%;
+    max-height: calc(100% - 96px);
+    z-index: 2;
+    display: flex;
+    transition: none;
+    overflow: auto;
+}
+
+.piano-roll div {
+    transition-property: height, width, top, left;
+    transition-duration: .1s;
+    transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.keys {
+    height: 100%;
+    width: var(--piano-note-width);
+    min-width: 32px;
+}
+
+.keys > div {
+    width: var(--piano-note-width);
+    height: var(--piano-note-height);
+    min-width: 32px;
+    min-height: 16px;
+    font-size: 12px;
+    font-weight: bold;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.white-key {
+    background-color: var(--piano-key-light);
+    color: rgba(var(--piano-key-dark-rgb), .48);
+}
+
+.black-key {
+    background-color: var(--piano-key-dark);
+    color: rgba(var(--piano-key-light-rgb), 1);
+}
+
+.notes-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .01;
+}
+
+.notes-bg > div {
+    width: 100%;
+    height: var(--piano-note-height);
+    min-height: 16px;
+}
+
+.notes-bg > .black-key {
+    width: 100%;
+    height: var(--piano-note-height);
+    min-height: 16px;
+    background: none;
+}
+
+.notes {
+    z-index: 3;
+    position: relative;
+    top: 0;
+    left: 0;
+    /* width: inherit; */
+    /* height: inherit; */
+    margin-left: 18px;
+    /* overflow: auto; */
+}
+
+.some-note {
+    position: absolute;
+    height: calc(var(--piano-note-height) - var(--piano-notes-vertical-gap) * 2);
+    min-height: 16px;
+    min-width: 8px;
+
+    background-color: rgba(var(--piano-note-1-rgb), 1);
+    filter: brightness(1);
+}
+
+.some-note:hover {
+    filter: brightness(1.2);
+}
+
+.some-note.active {
+    filter: brightness(1.2);
+}
