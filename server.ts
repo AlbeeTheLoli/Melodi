@@ -20,7 +20,7 @@ app.get('/result', (req, res) => {
 
 app.get('/melody', async (req, res) => {
     // load a midi file in the browser
-    const midiData = fs.readFileSync("./Stay Alive.mid")
+    const midiData = fs.readFileSync("./Seikai Fuseikai.mid");
     const midi = await new Midi(midiData);
     
     res.setHeader('Access-Control-Allow-Origin', '*');
