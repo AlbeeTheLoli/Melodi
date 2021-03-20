@@ -29,7 +29,7 @@ app.get('/melody', async (req, res) => {
 });
 
 app.listen(3000, function () {
-    console.log('server started');
+    console.log(`server started on: https://127.0.0.1:3000`);
 });
 
 process.on('exit', () => {
