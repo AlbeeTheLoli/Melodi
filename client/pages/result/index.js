@@ -11,11 +11,11 @@ const notes_bg_el = document.getElementById('notes-bg');
 
 function createNote(note) {
     let el = document.createElement('div');
-    el.style.top = `calc(var(--piano-note-height) * ${95 - note.midi} + var(--piano-notes-vertical-gap))`;
+    el.style.top = `calc(var(--piano-note-height) * ${72 - note.midi} + var(--piano-notes-vertical-gap))`;
     el.style.left = `calc(var(--piano-note-width) * ${note.time} * var(--piano-scale))`;
     el.style.width = `calc(var(--piano-note-width) * ${note.duration} * var(--piano-scale) - var(--piano-notes-horizontal-gap))`;
     // el.innerHTML = note.name;
-    // el.style.opacity = `${(note.velocity / 2) + .5}`;
+    el.style.opacity = `${(note.velocity / 2) + .5}`;
     el.className = 'some-note';
 
     notes_el.appendChild(el);
@@ -24,38 +24,37 @@ function createNote(note) {
 const synth = new Tone.PolySynth({maxPolyphony: 64}).toDestination();
 synth.sync();
 
-const sampler = new Tone.Sampler({
+const piano = new Tone.Sampler({
     urls: {
-        "C4": "C4.mp3",
-        "D#4": "Ds4.mp3",
-        "F#4": "Fs4.mp3",
-        "A4": "A4.mp3",
+        "C0": "client/pages/result/instruments/piano/C0.wav",
+        "C1": "client/pages/result/instruments/piano/C1.wav",
+        "C2": "client/pages/result/instruments/piano/C2.wav",
+        "C3": "client/pages/result/instruments/piano/C3.wav",
+        "C4": "client/pages/result/instruments/piano/C4.wav",
+        "C5": "client/pages/result/instruments/piano/C5.wav",
     },
     release: 1,
-    baseUrl: "https://tonejs.github.io/audio/salamander/",
 }).toDestination();
-sampler.sync();
+piano.sync();
 
-let instrument = sampler;
+let instrument = piano;
 
 let length = 0;
 
 async function loadMelody() {
-    let json = await ajax('http://localhost:3000/melody');
+    let json = await ajax('http://localhost:3000/melody/create');
     console.log(json);
     melody = json;
 
-    melody.tracks.forEach(track => {
-        track.notes.forEach(note => {
-            if (note.duration <= 0) return;
-            instrument.triggerAttackRelease(note.name, note.duration, note.time, note.velocity);
-            createNote(note);
+    melody.forEach(note => {
+        if (note.duration <= 0) return;
+        instrument.triggerAttackRelease(`${note.pitch}${note.octave}`, note.duration, note.time, note.velocity);
+        createNote(note);
 
-            let end = note.time + note.duration;
-            if (length < end) {
-                length = end;
-            }
-        });
+        let end = note.time + note.duration;
+        if (length < end) {
+            length = end;
+        } 
     });
 
     notes_bg_el.style.width = `calc(var(--piano-note-width) * ${length} * var(--piano-scale) + var(--piano-note-width) + 24px`;

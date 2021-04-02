@@ -1,13 +1,15 @@
 import * as express from 'express'
 import * as path from 'path'
-import * as fs from 'fs'
+// import * as fs from 'fs'
 import { Midi } from '@tonejs/midi'
 
 const app = express();
 
 import ScriptsRtr from './routes/Scripts'
+import MelodyRtr from './routes/Melody'
 
 app.use('/scripts', ScriptsRtr)
+app.use('/melody', MelodyRtr)
 app.use('/client', express.static(__dirname + '/client'));
 
 app.get('/', (req, res) => {
@@ -18,20 +20,10 @@ app.get('/result', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/pages/result/index.html'));
 });
 
-app.get('/melody', async (req, res) => {
-    // load a midi file in the browser
-    const midiData = fs.readFileSync("./Seikai Fuseikai.mid");
-    const midi = await new Midi(midiData);
-    
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(midi.toJSON()));
-});
-
 app.listen(3000, function () {
-    console.log(`server started on: https://127.0.0.1:3000`);
+    console.log(`server started on: http://127.0.0.1:3000`);
 });
 
 process.on('exit', () => {
     process.exit();
-})
+});
