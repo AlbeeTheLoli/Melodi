@@ -1,0 +1,93 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 78px);
+    padding: 0 140px;
+}
+
+.question {
+    width: 100%;
+}
+
+.question > h1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 48px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    width: 75%;
+
+    font-size: 16px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.option > span {
+    opacity: .64;
+
+    transition: span .08s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.option > .checkmark {
+    margin-right: 18px;
+    width: 12px;
+    height: 12px;
+
+    background: rgba(var(--text-rgb), 0);
+    border: var(--text) 2px solid !important;
+    border-radius: 50%;
+    opacity: .64;
+
+    transition: all .08s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.option > input:checked ~ .checkmark {
+    background-color: rgba(var(--text-rgb), 1);
+    opacity: 1;
+}
+
+.option > input:checked ~ span {
+    opacity: 1;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.submit-button {
+    font-size: 16px;
+    font-weight: 500;
+
+    width: 256px;
+    height: 48px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 24px;
+
+    background: rgba(var(--text-rgb), 0);
+    border: var(--text) 2px solid !important;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: all .08s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.submit-button:hover {
+    background: rgba(var(--text-rgb), 1);
+    color: var(--bg);
+}

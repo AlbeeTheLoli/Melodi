@@ -1,15 +1,48 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
-:root {
+.light-theme {
+    --bg: #FFFFFF;
+    --text: #1C1C24;
+    --accent: #6570FF;
+    --secondary: #60ff90;
+
+    --bg-rgb: 255, 255, 255;
+    --text-rgb: 28, 28, 36;
+    --accent-rgb: 156, 124, 221;
+    --secondary-rgb: 221, 179, 124;
+
+    --piano-key-light: #FFFFFF;
+    --piano-key-dark: #282830;
+    --piano-note-1: #DDB37C;
+    --piano-note-2: #9C7CDD;
+    --piano-note-3: #7CDDB3;
+    --piano-note-4: #DD7CA3;
+
+    --piano-key-light-rgb: 255, 255, 255;
+    --piano-key-dark-rgb: 40, 40, 48;
+    --piano-note-1-rgb: 221, 179, 124;
+    --piano-note-2-rgb: 156, 124, 221;
+    --piano-note-3-rgb: 124, 221, 179;
+    --piano-note-4-rgb: 221, 124, 163;
+
+
+    --piano-note-width: 64px;
+    --piano-note-height: 24px;
+    --piano-scale: 2;
+    --piano-notes-vertical-gap: 4px;
+    --piano-notes-horizontal-gap: 8px;
+}
+
+.dark-theme {
     --bg: #1C1C24;
     --text: #FFFFFF;
-    --accent: #9C7CDD;
-    --secondary: #DDB37C;
+    --accent: #6570FF; 
+    --secondary: #60ff90;
 
     --bg-rgb: 28, 28, 36;
     --text-rgb: 255, 255, 255;
-    --accent-rgb: 156, 124, 221;
-    --secondary-rgb: 221, 179, 124;
+    --accent-rgb: 101, 112, 255;
+    --secondary-rgb: 96, 255, 144;
 
     --piano-key-light: #FFFFFF;
     --piano-key-dark: #282830;
@@ -38,9 +71,34 @@
     padding: 0;
     font-family: 'Montserrat', sans-serif;
     box-sizing: border-box;
+    letter-spacing: .1px;
 }
 
 body {
     background-color: var(--bg);
     color: var(--text);
+}
+
+a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+body > .bg {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+}
+
+.bg > svg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }

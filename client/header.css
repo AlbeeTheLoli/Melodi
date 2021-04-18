@@ -11,6 +11,10 @@ header {
     font-weight: bold;
 }
 
+.logo > span {
+    color: var(--accent);
+}
+
 .nav {
     display: flex;
     flex: 1;

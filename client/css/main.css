@@ -1,0 +1,82 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 78px);
+    padding: 0 140px;
+}
+
+main > div {
+    width: 50%;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.left > h1 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 32px;
+}
+
+.left > p {
+    width: 75%;
+    font-size: 20px;
+    font-weight: 500;
+    opacity: .64;
+    margin-bottom: 128px;
+}
+
+.left > .buttons {
+    display: flex;
+}
+
+.left > .buttons * {
+    font-size: 16px;
+    font-weight: 500;
+
+    width: 256px;
+    height: 48px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 24px;
+
+    background: rgba(var(--text-rgb), 0);
+    border: none;
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: all .08s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.try-button {
+    border: var(--text) 2px solid !important;
+}
+
+.try-button:hover {
+    background: rgba(var(--text-rgb), 1);
+    color: var(--bg);
+}
+
+.learn-button {
+    border: rgba(var(--text-rgb), 0) 2px solid !important;
+}
+
+.learn-button:hover {
+    border: rgba(var(--text-rgb), .08) 2px solid !important;
+}
+
+.left > .buttons *:last-child() {
+    margin-right: 0;
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+}
