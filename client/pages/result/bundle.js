@@ -10907,20 +10907,122 @@ return jQuery;
 },{}],3:[function(require,module,exports){
 //. browserify main.js -o bundle.js
 
+//#region contants
+
+const note_names = [
+    'C',
+    'C#',
+    'D',
+    'D#',
+    'E',
+    'F',
+    'F#',
+    'G',
+    'G#',
+    'A',
+    'A#',
+    'B',
+]
+
+const key_offsets = {
+    'C': 0,
+    'C#': 1,
+    'D': 2,
+    'D#': 3,
+    'E': 4,
+    'F': 5,
+    'F#': 6,
+    'G': 7,
+    'G#': 8,
+    'A': 9,
+    'A#': 10,
+    'B': 11,
+}
+
+const scales = {
+    'major': [
+        0,
+        2,
+        4,
+        5,
+        7,
+        9,
+        11,
+    ],
+    'minor': [
+        0,
+        2,
+        3,
+        5,
+        7,
+        8,
+        10,
+    ],
+    'dorian': [
+        0,
+        2,
+        3,
+        5,
+        7,
+        9,
+        10,
+    ],
+    'mixolydian': [
+        0,
+        2,
+        4,
+        5,
+        7,
+        9,
+        10,
+    ],
+    'lydian': [
+        0,
+        2,
+        4,
+        6,
+        7,
+        9,
+        11,
+    ],
+    'phrygian': [
+        0,
+        1,
+        3,
+        5,
+        7,
+        8,
+        10,
+    ],
+    'locrian': [
+        0,
+        1,
+        3,
+        5,
+        6,
+        8,
+        10,
+    ]
+}
+
+//#endregion
+
+//#region player
+
 const Tone = require('Tone');
 const { ajax } = require('jquery');
 let melody = undefined;
 
 const main_el = document.getElementById('main');
 const piano_roll_el = document.getElementById('piano-roll');
-const notes_el = document.getElementById('notes-container');
+const notes_el = document.getElementById('notes');
 const notes_bg_el = document.getElementById('notes-bg');
 
 function createNote(note) {
     let el = document.createElement('div');
-    el.style.top = `calc(var(--piano-note-height) * ${72 - note.midi} + var(--piano-notes-vertical-gap))`;
-    el.style.left = `calc(var(--piano-note-width) * ${note.time} * var(--piano-scale))`;
-    el.style.width = `calc(var(--piano-note-width) * ${note.duration} * var(--piano-scale) - var(--piano-notes-horizontal-gap))`;
+    el.style.bottom = `calc(var(--piano-note-height) * ${note.midi} + var(--piano-notes-vertical-gap))`;
+    el.style.left = `calc(var(--piano-measure-width) * ${note.time} * var(--piano-scale))`;
+    el.style.width = `calc(var(--piano-measure-width) * ${note.duration} * var(--piano-scale) - var(--piano-notes-horizontal-gap))`;
     // el.innerHTML = note.name;
     el.style.opacity = `${(note.velocity / 2) + .5}`;
     el.className = 'some-note';
@@ -10945,16 +11047,34 @@ const piano = new Tone.Sampler({
 piano.sync();
 
 let instrument = piano;
-
-let length = 0;
+instrument.debug = true;
 
 async function loadMelody() {
     let json = await ajax('http://localhost:3000/melody/create');
-    console.log(json);
+    console.log('got melody' , json);
     melody = json;
+}
 
-    melody.forEach(note => {
-        if (note.duration <= 0) return;
+function drawMelody(scale_ = scale, key_ = key) {
+    notes_el.innerHTML = '';
+    scale = scale_;
+    key = key_;
+    let length = 0;
+    melody.notes.forEach(note_ => {
+        if (note_.duration <= 0) return;
+
+        let note = {
+            midi: ((scales[scale_][note_.pitch] + key_offsets[key_]) % 12) + (note_.octave - 1) * 12,
+            pitch: note_names[(scales[scale_][note_.pitch] + key_offsets[key_]) % 12], 
+            duration: note_.duration,
+            time: note_.time,
+            octave: note_.octave,
+            velocity: .1,
+        }
+
+        // console.log(note_);
+        console.log(note);
+
         instrument.triggerAttackRelease(`${note.pitch}${note.octave}`, note.duration, note.time, note.velocity);
         createNote(note);
 
@@ -10964,30 +11084,48 @@ async function loadMelody() {
         } 
     });
 
-    notes_bg_el.style.width = `calc(var(--piano-note-width) * ${length} * var(--piano-scale) + var(--piano-note-width) + 24px`;
+    notes_bg_el.style.width = `calc(var(--piano-measure-width) * ${length} * var(--piano-scale)`;
+    let sections_el = document.getElementById('notes-bg-sections');
+    for (let i = 0; i < length; i++) {
+        sections_el.innerHTML += `
+            <div class="section"></div>
+        `;
+    }
 }
-loadMelody();
+
+//#endregion
+
+let scale = 'major';
+let key = 'F#';
+
+async function init() {
+    await loadMelody();
+
+    drawMelody();
+}
+
+init();
+
+//#region player controls
 
 let playing = false;
 let in_piano_roll = true;
 document.addEventListener('keypress', e => {
     if (!in_piano_roll) return;
+    e.preventDefault();
     if (e.key == ' ') {
-        e.preventDefault(); 
+        e.preventDefault();
         if (e.ctrlKey) {
-            console.log('restarting');
-            if (playing) {
-                stop();
-                playing = false;
-            }
-            play();
-            playing = true;
-        } else if (!playing) {
-            play();
-            playing = true;
-        } else {
+            console.log('aaaaaaa');
+            stop();
+        } 
+        else if (playing) {
             pause();
             playing = false;
+        }
+        else {
+            play();
+            playing = true;
         }
     }
 });
@@ -11000,30 +11138,41 @@ main_el.addEventListener('mouseleave', () => {
     in_piano_roll = false;
 });
 
+let marker_interval;
+
 async function play() {
     if (melody == undefined) {
-        console.log("mellody hasn'y loaded yet");
+        console.log("melody hasn't loaded yet");
         return;
     }
+
+    marker_interval = setInterval(() => {
+        console.log(Tone.Transport.getTicksAtTime());
+    }, 100)
 
     await Tone.start()
 	console.log('audio is ready')
 
-    Tone.Transport.bpm.value = document.getElementById('bpm').value;
+    Tone.Transport.bpm.value = 160;
+
+    Tone.Transport.setLoopPoints(0, `${melody.length / 2}m`);
+    Tone.Transport.loop = true;
+
+    // Tone.Transport.bpm.value = document.getElementById('bpm').value;
     Tone.Transport.start();
 }
 
-document.getElementById('bpm').addEventListener('input', e => {
-    Tone.Transport.bpm.value = e.currentTarget.value;
-});
-
 async function stop() {
+    if (marker_interval) clearInterval(marker_interval);
     console.log('stopping');
-    Tone.Transport.stop();
+    Tone.Transport.position = 0;
 }
 
 async function pause() {
+    if (marker_interval) clearInterval(marker_interval);
     console.log('pausing');
     Tone.Transport.pause();
 }
+
+//#endregion
 },{"Tone":1,"jquery":2}]},{},[3]);

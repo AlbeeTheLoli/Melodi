@@ -4,23 +4,47 @@
     flex: 1;
     margin-right: 32px;
     width: 100%;
-    max-height: calc(100% - 96px);
+    max-height: calc(100% - 48px);
     z-index: 2;
     display: flex;
     transition: none;
-    overflow: auto;
+    overflow-y: auto;
+    /* overflow-x: hidden; */
+
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--text-rgb), .04) rgba(var(--bg-rgb), 0)
+}
+
+.player-container * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--text-rgb), .04) rgba(var(--bg-rgb), 0)
+}
+
+.player-container *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+.player-container *::-webkit-scrollbar-track {
+    background: rgba(var(--bg-rgb), 0);
+    width: 8px;
+    height: 8px;
+}
+
+.player-container *::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--text-rgb), .04);
+    border-radius: 20px;
 }
 
 .piano-roll div {
     transition-property: height, width, top, left;
     transition-duration: .1s;
     transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
+} 
 
 .keys {
-    height: 100%;
+    height: calc(var(--piano-note-height) * 60);
     width: var(--piano-note-width);
-    min-width: 32px;
 }
 
 .keys > div {
@@ -45,22 +69,62 @@
     color: rgba(var(--piano-key-light-rgb), 1);
 }
 
+.notes-container {
+    z-index: 3;
+    position: relative;
+    top: 0;
+    left: 0;
+    height: calc(var(--piano-note-height) * 60);
+    width: 100%;
+    flex: 1;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
 .notes-bg {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 100%;
+    height: calc(var(--piano-note-height) * 60);
+    padding-left: var(--piano-notes-horizontal-gap);
+}
+
+.notes-bg-sections {
+    display: flex;
+    height: 100%;
+    z-index: 1;
+}
+
+.notes-bg-sections > .section {
+    width: var(--piano-measure-width);
+    height: 100%;
+    background-color: rgba(var(--bg-rgb), .1);
+}
+
+.notes-bg-sections > .section:nth-child(2n + 1) {
+    background-color: rgba(var(--piano-bg-rgb), 0);
+}
+
+
+.notes-bg-notes {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
     opacity: .01;
+    z-index: -1;
 }
 
-.notes-bg > div {
+.notes-bg > .notes-bg-notes div {
     width: 100%;
     height: var(--piano-note-height);
     min-height: 16px;
 }
 
-.notes-bg > .black-key {
+.notes-bg > .notes-bg-notes .black-key {
     width: 100%;
     height: var(--piano-note-height);
     min-height: 16px;
@@ -69,19 +133,18 @@
 
 .notes {
     z-index: 3;
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
-    /* width: inherit; */
-    /* height: inherit; */
-    margin-left: 18px;
-    /* overflow: auto; */
+    height: calc(var(--piano-note-height) * 60);
+    width: 100%;
+    margin-left: var(--piano-notes-horizontal-gap);
 }
 
 .some-note {
     position: absolute;
     height: calc(var(--piano-note-height) - var(--piano-notes-vertical-gap) * 2);
-    min-height: 16px;
+    min-height: calc(16px - var(--piano-notes-vertical-gap) * 2);
     min-width: 8px;
 
     background-color: rgba(var(--piano-note-1-rgb), 1);

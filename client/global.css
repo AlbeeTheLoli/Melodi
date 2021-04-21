@@ -24,13 +24,6 @@
     --piano-note-2-rgb: 156, 124, 221;
     --piano-note-3-rgb: 124, 221, 179;
     --piano-note-4-rgb: 221, 124, 163;
-
-
-    --piano-note-width: 64px;
-    --piano-note-height: 24px;
-    --piano-scale: 2;
-    --piano-notes-vertical-gap: 4px;
-    --piano-notes-horizontal-gap: 8px;
 }
 
 .dark-theme {
@@ -57,12 +50,14 @@
     --piano-note-2-rgb: 156, 124, 221;
     --piano-note-3-rgb: 124, 221, 179;
     --piano-note-4-rgb: 221, 124, 163;
+}
 
-
+:root {
     --piano-note-width: 64px;
-    --piano-note-height: 24px;
-    --piano-scale: 2;
-    --piano-notes-vertical-gap: 4px;
+    --piano-note-height: 16px;
+    --piano-measure-width: 128px;
+    --piano-scale: 1;
+    --piano-notes-vertical-gap: 2px;
     --piano-notes-horizontal-gap: 8px;
 }
 

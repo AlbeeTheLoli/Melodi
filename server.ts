@@ -8,6 +8,8 @@ const app = express();
 import ScriptsRtr from './routes/Scripts'
 import MelodyRtr from './routes/Melody'
 
+app.use(express.urlencoded({extended: true}))
+
 app.use('/scripts', ScriptsRtr)
 app.use('/melody', MelodyRtr)
 app.use('/client', express.static(__dirname + '/client'));
@@ -19,7 +21,6 @@ app.get('/', (req, res) => {
 app.get('/create', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/pages/create/index.html'));
 });
-
 
 app.get('/result', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/pages/result/index.html'));

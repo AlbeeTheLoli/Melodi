@@ -3,213 +3,101 @@ import { Options, PythonShell } from 'python-shell'
 
 const Router = express.Router()
 
-let note_names = [
-    'C',
-    'C#',
-    'D',
-    'D#',
-    'E',
-    'F',
-    'F#',
-    'G',
-    'G#',
-    'A',
-    'A#',
-    'B',
-]
-
-let key_offsets = {
-    'C': 0,
-    'C#': 1,
-    'D': 2,
-    'D#': 3,
-    'E': 4,
-    'F': 5,
-    'F#': 6,
-    'G': 7,
-    'G#': 8,
-    'A': 9,
-    'A#': 10,
-    'B': 11,
-}
-
-let scales = {
-    'major': [
-        0,
-        2,
-        4,
-        5,
-        7,
-        9,
-        11,
-    ],
-    'minor': [
-        0,
-        2,
-        3,
-        5,
-        7,
-        8,
-        10,
-    ],
-    'dorian': [
-        0,
-        2,
-        3,
-        5,
-        7,
-        9,
-        10,
-    ],
-    'mixolydian': [
-        0,
-        2,
-        4,
-        5,
-        7,
-        9,
-        10,
-    ],
-    'lydian': [
-        0,
-        2,
-        4,
-        6,
-        7,
-        9,
-        11,
-    ],
-    'phrygian': [
-        0,
-        1,
-        3,
-        5,
-        7,
-        8,
-        10,
-    ],
-    'locrian': [
-        0,
-        1,
-        3,
-        5,
-        6,
-        8,
-        10,
-    ]
-}
-
 Router.get('/create', async (req, res) => {
     let notes = []
+    let length = 8;
 
     notes = [
-        ...createMelody(key_offsets['F'], scales['dorian'], 0, 8, .5, 3),
+        ...createMelody(0, length, 1 / 4, 4),
+        // ...createChords(0, length, 2, 2, 5, false),
+        // ...createMelody(0, length, 1 / 2, 1),
     ];
     
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(notes));
+    res.end(JSON.stringify({length: length, notes: notes}));
 });
 
-function createChords(key_offset: number, scale: number[], start: number, duration: number, step = 1, octave = -1000): {midi: number, pitch: string, duration: number, time: number, octave: number}[] {
+function createChords(start: number, duration: number, step = 1, octave_ = 0, extensions = 4, random_duration): {pitch: string, duration: number, time: number, octave: number}[] {
     let notes = []
 
-    for (let i = start; i < start + duration; i += step) {
-        let note = fitToArr(scale, Math.round(Math.random() * 12));
-        note += key_offset
-        note %= 12;
-        if (octave == -1000) {
-            octave = Math.round((Math.random() + 3));
+    let marker = 0;
+    while (marker < start + duration) {
+        let note_duration = step;
+        if (random_duration) {
+            note_duration = randomInt(1, 4) * step;
         }
+        note_duration = Math.min(marker + note_duration, start + duration) - marker;
+        let note = {
+            time: marker,
+            duration: note_duration,
+            pitch: randomInt(0, 6),
+            octave: octave_
+        } 
 
-        // console.log(note_names[note], note);
-        notes.push({
-            midi: (note + (octave) * 12) + 1,
-            pitch: note_names[note], 
-            duration: step,
-            time: i,
-            octave: octave,
-            velocity: .1,
-        });
+        marker += note.duration;
 
-        note += 4;
-        note %= 12;
-        note = fitToArr(scale, note);
+        let pitch = note.pitch;
+        let octave = note.octave;
+        for (let i = 0; i < extensions; i++) {
+            console.log({
+                ...note,
+                pitch: pitch,
+                octave: octave
+            });
+            
 
-        notes.push({
-            midi: (note + (octave) * 12) + 1,
-            pitch: note_names[note], 
-            duration: step,
-            time: i,
-            octave: octave,
-            velocity: .1,
-        });
+            notes.push({
+                ...note,
+                pitch: pitch,
+                octave: i == 1 ? octave + 1 : octave
+            });
 
-        // note += 3;
-        // note %= 12;
-        // note = fitToArr(scale, note);
-
-        // notes.push({
-        //     midi: (note + (octave) * 12) + 1,
-        //     pitch: note_names[note], 
-        //     duration: step,
-        //     time: i,
-        //     octave: octave,
-        //     velocity: .1,
-        // });
-
-        // note += 7;
-        // note %= 12;
-        // note = fitToArr(scale, note);
-
-        // notes.push({
-        //     midi: (note + (octave) * 12) + 1,
-        //     pitch: note_names[note], 
-        //     duration: step,
-        //     time: i,
-        //     octave: octave,
-        //     velocity: .1,
-        // });
+            if (pitch + 2 >= 7) {                
+                octave += 1;
+                pitch -= 7;
+            }
+            pitch = pitch + 2;
+        }
     }
 
+    // console.log(notes);
     return notes;
 }
 
-function createMelody(key_offset: number, scale: number[], start: number, duration: number, step = 1, octave = -1000): {midi: number, pitch: string, duration: number, time: number, octave: number}[] {
+function createMelody(start: number, duration: number, step = 1, octave = 0): {pitch: string, duration: number, time: number, octave: number}[] {
     let notes = []
 
-    for (let i = start; i < start + duration; i += step) {
-        let note = fitToArr(scale, Math.round(Math.random() * 12));
-        note += key_offset
-        note %= 12;
-        if (octave == -1000) {
-            octave = Math.round((Math.random() + 3));
+    let marker = 0;
+    while (marker < start + duration) {
+        let note_duration = randomInt(1, 4) * step;
+        note_duration = Math.min(marker + note_duration, start + duration) - marker;
+        let note = {
+            time: marker,
+            duration: note_duration,
+            pitch: randomInt(0, 6),
+            octave: octave
         }
 
-        // console.log(note_names[note], note);
-        notes.push({
-            midi: (note + (octave) * 12) + 1,
-            pitch: note_names[note], 
-            duration: step,
-            time: i,
-            octave: octave,
-            velocity: Math.random() / 8,
-        });
-    }
-
-    return notes;
-}
-
-function fitToArr(arr: number[], num: number) {
-    let found = 0;
-    for (const i in arr) {
-        if (arr[i] <= num)
-            found = arr[i];
+        console.log(note);
         
-        if (arr[i] > found)
-            break;
+
+        marker += note.duration;
+
+        notes.push(note);
     }
-    return found;
+
+    return notes;
+}
+
+let lastrand = -1;
+function randomInt(start, end, allowsame = false) {
+    let newint = -1
+    do {
+        newint = Math.round(start + (Math.random() * (end - start)))
+    } while (lastrand == newint)
+    lastrand = newint; 
+    return newint
 }
 
 export default Router

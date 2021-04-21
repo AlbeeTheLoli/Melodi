@@ -1,17 +1,52 @@
 .overlay {
     position: absolute;
-    border: rgba(var(--text-rgb), .1) 2px solid;
+    /* border: rgba(var(--text-rgb), .1) 2px solid; */
     flex: 1;
     margin-right: 32px;
     width: 100%;
     height: 100%;
-    pointer-events: none;
+    display: none;
 }
 
 .tips {
     position: absolute;
     bottom: 0;
-    height: 96px;
+    height: 100%;
     display: flex;
     padding-left: calc(var(--piano-note-width) + 16px);
+}
+
+.tip {
+    /* overflow-y: hidden; */
+    cursor: default;
+    height: 100%;
+    display: flex;
+    position: relative;
+}
+
+.tip:hover p{
+    opacity: 1;
+}
+
+.tip > .line {
+    height: 100%;
+    width: 4px;
+    background-color: var(--accent);
+}
+
+.tip .text {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.tip h1 {
+    margin-bottom: 12px;
+    font-size: 24px;
+}
+
+.tip p {
+    margin-bottom: -24px;
+    opacity: 0;
 }
