@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <input type="file" id="aaa" />
+
+        <img id="test" src="" alt="">
+
+        <script>
+            let input = document.querySelector('input');
+
+            input.addEventListener('input', async () => {
+                let file = await input.files[0];
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = function () {
+                    let base64String = reader.result;
+                    console.log('Base64 String - ', base64String);
+
+                    $.ajax({
+                        method: 'POST',
+                        url: 'http://127.0.0.1:3000/jopapost',
+                        data: JSON.stringify({
+                            content: base64String
+                        }),
+                        dataType: 'application/json',
+                    });
+
+
+
+
+                };
+                // let fileblob = new Blob([filecontents], {type: 'image/png'});
+                // return;
+                // let file_ended = false;
+                // let start = 0;
+                // let chunk_size = 128;
+                // while (start <= input.files[0].size) {
+                //     console.log(file);
+                //     let chunk = file.slice(start, start + chunk_size);
+
+                //     // console.log(chunk);
+
+                //     $.ajax({
+                //         method: 'POST',
+                //         url: 'http://127.0.0.1:3000/jopapost',
+                //         data: file,
+                //         dataType: file.type,
+                //     });
+                //     start = start + chunk_size;
+                // }
+            });
+        </script>
+    </body>
+</html>

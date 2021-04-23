@@ -11095,8 +11095,8 @@ function drawMelody(scale_ = scale, key_ = key) {
 
 //#endregion
 
-let scale = 'major';
-let key = 'F#';
+let scale = 'dorian';
+let key = 'A';
 
 async function init() {
     await loadMelody();

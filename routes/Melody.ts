@@ -1,5 +1,4 @@
 import * as express from 'express'
-import { Options, PythonShell } from 'python-shell'
 
 const Router = express.Router()
 
@@ -9,7 +8,7 @@ Router.get('/create', async (req, res) => {
 
     notes = [
         ...createMelody(0, length, 1 / 4, 4),
-        // ...createChords(0, length, 2, 2, 5, false),
+        // ...createChords(0, length, 2, 1, 1, false),
         // ...createMelody(0, length, 1 / 2, 1),
     ];
     

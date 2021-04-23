@@ -1,5 +1,8 @@
 import * as express from 'express'
 import * as path from 'path'
+import * as bodyParser from 'body-parser'
+
+import * as fs from 'fs'
 // import * as fs from 'fs'
 import { Midi } from '@tonejs/midi'
 
@@ -9,6 +12,8 @@ import ScriptsRtr from './routes/Scripts'
 import MelodyRtr from './routes/Melody'
 
 app.use(express.urlencoded({extended: true}))
+// app.use(bodyParser.urlencoded({ extended: false }))
+// app.use(bodyParser.json())
 
 app.use('/scripts', ScriptsRtr)
 app.use('/melody', MelodyRtr)
@@ -17,6 +22,30 @@ app.use('/client', express.static(__dirname + '/client'));
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/index.html'));
 });
+
+app.get('/jopa', (req, res) => {
+    res.sendFile(path.join(__dirname, '/client/jopa.html'));
+});
+
+
+let file_contents = '';
+
+app.post('/jopapost', (req, res) => {
+    // let body = JSON.parse(req.body);
+    console.log(req.body);
+
+    if (req.body.status == 'data') {
+        file_contents += req.body.contents;
+        console.log('aaa');
+    } else if (req.body.status == 'end') {
+        console.log('aaa');
+    }
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Content-Type', 'application/json');
+    res.send('aaa');
+});
+
 
 app.get('/create', (req, res) => {
     res.sendFile(path.join(__dirname, '/client/pages/create/index.html'));
