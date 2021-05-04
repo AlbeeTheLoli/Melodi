@@ -159,7 +159,7 @@ const scales = {
 
 //#region player
 
-const Tone = require('Tone');
+const Tone = require('tone');
 const { ajax } = require('jquery');
 let melody = undefined;
 
@@ -200,7 +200,7 @@ let instrument = piano;
 instrument.debug = true;
 
 async function loadMelody() {
-    let json = await ajax('http://localhost:3000/melody/create');
+    let json = await ajax('http://localhost:8080/melody/create');
     console.log('got melody' , json);
     melody = json;
 }
