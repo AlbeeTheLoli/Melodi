@@ -210,16 +210,21 @@
                 </div>
                 <div class="setting-el">
                     <label for="scale">Режим:</label>
-                    <input list="scales" name="scale" id="scale" value="Major">
+                    <input list="scales" name="scale" id="scale" value="major">
                     <datalist id="scales">
-                        <option value="Major">
-                        <option value="Minor">
+                        <option value="major">
+                        <option value="minor">
+                        <option value="dorian">
+                        <option value="mixolydian">
+                        <option value="lydian">
+                        <option value="phrygian">
+                        <option value="locrian">
                     </datalist>
                 </div>
                 <div class="setting-el">
-                    <label for="root">Ключ:</label>
-                    <input list="roots" name="root" id="root" autocomplete="none" value="A">
-                    <datalist id="roots">
+                    <label for="key">Ключ:</label>
+                    <input list="keys" name="key" id="key" autocomplete="none" value="A">
+                    <datalist id="keys">
                         <option value="A">
                         <option value="A#">
                         <option value="B">
@@ -234,13 +239,13 @@
                         <option value="G#">
                     </datalist>
                 </div>
-                <div class="setting-el">
+                <!-- <div class="setting-el">
                     <label for="instrument">Инструмент:</label>
                     <input list="instruments" name="instrument" id="instrument" autocomplete="none" value="Пианино">
                     <datalist id="instruments">
                         <option value="Пианино">
                     </datalist>
-                </div>
+                </div> -->
             </div>
         </div>
     </main>

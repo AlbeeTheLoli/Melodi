@@ -10907,6 +10907,63 @@ return jQuery;
 },{}],3:[function(require,module,exports){
 //. browserify main.js -o bundle.js
 
+let starting_parameters = {
+    key: 'A',
+    scale: 'minor',
+    bpm: '160'
+}
+
+function findGetParameter(parameterName) {
+    var result = null,
+        tmp = [];
+    location.search
+        .substr(1)
+        .split("&")
+        .forEach(function (item) {
+        tmp = item.split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+        });
+    return result;
+}
+
+let mood = findGetParameter('mood');
+console.log(mood);
+switch (mood) {
+    case 'грустный':
+        starting_parameters = {
+            key: 'A',
+            scale: 'minor',
+            bpm: '140'
+        }
+        break;
+
+    case 'веселый':
+        starting_parameters = {
+            key: 'C',
+            scale: 'major',
+            bpm: '160'
+        }
+        break;
+
+    case 'вдохновляющий':
+        starting_parameters = {
+            key: 'G#',
+            scale: 'dorian',
+            bpm: '180'
+        }
+        break;
+
+    case 'спокойный':
+        starting_parameters = {
+            key: 'F',
+            scale: 'major',
+            bpm: '100'
+        }
+        break;
+}
+
+console.log(starting_parameters);
+
 //#region contants
 
 const note_names = [
@@ -11056,7 +11113,10 @@ async function loadMelody() {
 }
 
 function drawMelody(scale_ = scale, key_ = key) {
+    if (key == '' || scale == '') return;
     notes_el.innerHTML = '';
+    Tone.Transport.cancel();
+    instrument.releaseAll();
     scale = scale_;
     key = key_;
     let length = 0;
@@ -11086,6 +11146,7 @@ function drawMelody(scale_ = scale, key_ = key) {
 
     notes_bg_el.style.width = `calc(var(--piano-measure-width) * ${length} * var(--piano-scale)`;
     let sections_el = document.getElementById('notes-bg-sections');
+    sections_el.innerHTML = '';
     for (let i = 0; i < length; i++) {
         sections_el.innerHTML += `
             <div class="section"></div>
@@ -11095,8 +11156,38 @@ function drawMelody(scale_ = scale, key_ = key) {
 
 //#endregion
 
-let scale = 'dorian';
-let key = 'A';
+document.getElementById('key').value = starting_parameters.key;
+document.getElementById('scale').value = starting_parameters.scale;
+document.getElementById('bpm').value = starting_parameters.bpm;
+
+
+let key_input = document.getElementById('key');
+let scale_input = document.getElementById('scale');
+
+let scale = scale_input.value;
+let key = key_input.value;
+
+key_input.addEventListener('click', async () => {
+    document.getElementById('key').value = '';
+});
+
+scale_input.addEventListener('click', async () => {
+    document.getElementById('scale').value = '';
+});
+
+key_input.addEventListener('input', async () => {
+    key_input = document.getElementById('key');
+    if (key_input.value == undefined) return;
+    key = key_input.value;
+    drawMelody(scale, key);
+});
+
+scale_input.addEventListener('input', async () => {
+    scale_input = document.getElementById('scale');
+    if (scale_input.value == undefined) return;
+    scale = scale_input.value;
+    drawMelody(scale, key);
+});
 
 async function init() {
     await loadMelody();
@@ -11115,12 +11206,8 @@ document.addEventListener('keypress', e => {
     e.preventDefault();
     if (e.key == ' ') {
         e.preventDefault();
-        if (e.ctrlKey) {
-            console.log('aaaaaaa');
+        if (playing) {
             stop();
-        } 
-        else if (playing) {
-            pause();
             playing = false;
         }
         else {
@@ -11147,25 +11234,23 @@ async function play() {
     }
 
     marker_interval = setInterval(() => {
-        console.log(Tone.Transport.getTicksAtTime());
+        // console.log(Tone.Transport.getTicksAtTime());
     }, 100)
 
     await Tone.start()
 	console.log('audio is ready')
 
-    Tone.Transport.bpm.value = 160;
-
     Tone.Transport.setLoopPoints(0, `${melody.length / 2}m`);
     Tone.Transport.loop = true;
 
-    // Tone.Transport.bpm.value = document.getElementById('bpm').value;
+    Tone.Transport.bpm.value = parseInt(document.getElementById('bpm').value);
     Tone.Transport.start();
 }
 
 async function stop() {
     if (marker_interval) clearInterval(marker_interval);
     console.log('stopping');
-    Tone.Transport.position = 0;
+    Tone.Transport.stop();
 }
 
 async function pause() {

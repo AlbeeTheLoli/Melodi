@@ -1,8 +1,9 @@
 {
-  "name": "shkola",
+  "name": "Melodi",
   "version": "1.0.0",
   "description": "",
-  "main": "server.ts",
+  "main": "server.js",
+  "bin": "bin.js",
   "scripts": {
     "start": "nodemon server",
     "rebuild": "cd client && npm build && cd ../",

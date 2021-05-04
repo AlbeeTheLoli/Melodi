@@ -11,54 +11,34 @@ const app = express();
 import ScriptsRtr from './routes/Scripts'
 import MelodyRtr from './routes/Melody'
 
-app.use(express.urlencoded({extended: true}))
-// app.use(bodyParser.urlencoded({ extended: false }))
-// app.use(bodyParser.json())
+try {
+    app.use(express.urlencoded({extended: true}))
+    // app.use(bodyParser.urlencoded({ extended: false }))
+    // app.use(bodyParser.json())
 
-app.use('/scripts', ScriptsRtr)
-app.use('/melody', MelodyRtr)
-app.use('/client', express.static(__dirname + '/client'));
+    app.use('/scripts', ScriptsRtr)
+    app.use('/melody', MelodyRtr)
+    app.use('/client', express.static(__dirname + '/client'));
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/index.html'));
-});
+    app.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, '/client/index.html'));
+    });
 
-app.get('/jopa', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/jopa.html'));
-});
+    app.get('/create', (req, res) => {
+        res.sendFile(path.join(__dirname, '/client/pages/create/index.html'));
+    });
 
+    app.get('/result', (req, res) => {
+        res.sendFile(path.join(__dirname, '/client/pages/result/index.html'));
+    });
 
-let file_contents = '';
+    app.listen(3000, function () {
+        console.log(`server started on: http://127.0.0.1:3000`);
+    });
 
-app.post('/jopapost', (req, res) => {
-    // let body = JSON.parse(req.body);
-    console.log(req.body);
-
-    if (req.body.status == 'data') {
-        file_contents += req.body.contents;
-        console.log('aaa');
-    } else if (req.body.status == 'end') {
-        console.log('aaa');
-    }
-
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'application/json');
-    res.send('aaa');
-});
-
-
-app.get('/create', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/pages/create/index.html'));
-});
-
-app.get('/result', (req, res) => {
-    res.sendFile(path.join(__dirname, '/client/pages/result/index.html'));
-});
-
-app.listen(3000, function () {
-    console.log(`server started on: http://127.0.0.1:3000`);
-});
-
-process.on('exit', () => {
-    process.exit();
-});
+    process.on('exit', () => {
+        process.exit();
+    });
+} catch (err) {
+    console.log(err);
+}
