@@ -2,8 +2,8 @@ import * as express from 'express'
 
 const Router = express.Router()
 
-Router.get('/create', async (req, res) => {
-    let notes = []
+Router.get('/create', async (req: any, res: any) => {
+    let notes: any = []
     let length = 8;
 
     notes = [
@@ -17,8 +17,8 @@ Router.get('/create', async (req, res) => {
     res.end(JSON.stringify({length: length, notes: notes}));
 });
 
-function createChords(start: number, duration: number, step = 1, octave_ = 0, extensions = 4, random_duration): {pitch: string, duration: number, time: number, octave: number}[] {
-    let notes = []
+function createChords(start: number, duration: number, step = 1, octave_ = 0, extensions = 4, random_duration: boolean): {pitch: string, duration: number, time: number, octave: number}[] {
+    let notes: any = []
 
     let marker = 0;
     while (marker < start + duration) {
@@ -65,7 +65,7 @@ function createChords(start: number, duration: number, step = 1, octave_ = 0, ex
 }
 
 function createMelody(start: number, duration: number, step = 1, octave = 0): {pitch: string, duration: number, time: number, octave: number}[] {
-    let notes = []
+    let notes: any = []
 
     let marker = 0;
     while (marker < start + duration) {
@@ -90,7 +90,7 @@ function createMelody(start: number, duration: number, step = 1, octave = 0): {p
 }
 
 let lastrand = -1;
-function randomInt(start, end, allowsame = false) {
+function randomInt(start: number, end: number, allowsame = false) {
     let newint = -1
     do {
         newint = Math.round(start + (Math.random() * (end - start)))

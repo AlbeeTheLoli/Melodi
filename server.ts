@@ -1,6 +1,7 @@
-import * as express from 'express'
 import * as path from 'path'
 import * as bodyParser from 'body-parser'
+
+const express = require('express')
 
 import * as fs from 'fs'
 // import * as fs from 'fs'
@@ -8,7 +9,6 @@ import { Midi } from '@tonejs/midi'
 
 const app = express();
 
-import ScriptsRtr from './routes/Scripts'
 import MelodyRtr from './routes/Melody'
 
 try {
@@ -16,19 +16,18 @@ try {
     // app.use(bodyParser.urlencoded({ extended: false }))
     // app.use(bodyParser.json())
 
-    app.use('/scripts', ScriptsRtr)
     app.use('/melody', MelodyRtr)
     app.use('/client', express.static(__dirname + '/client'));
 
-    app.get('/', (req, res) => {
+    app.get('/', (req: any, res: any) => {
         res.sendFile(path.join(__dirname, '/client/index.html'));
     });
 
-    app.get('/create', (req, res) => {
+    app.get('/create', (req: any, res: any) => {
         res.sendFile(path.join(__dirname, '/client/pages/create/index.html'));
     });
 
-    app.get('/result', (req, res) => {
+    app.get('/result', (req: any, res: any) => {
         res.sendFile(path.join(__dirname, '/client/pages/result/index.html'));
     });
 
