@@ -1,3 +1,3 @@
 # Melodi
 
-Web-app that allows it's user to create a random melody with preset settings.
+Web-app for creating random and unique melodies with preset settings (scale and key).
