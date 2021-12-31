@@ -1,2 +1,3 @@
 # Melodi
-My school project pls no ban me
+
+Web-app that allows it's user to create a random melody with preset settings.
